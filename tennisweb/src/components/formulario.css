@@ -176,7 +176,6 @@
     object-position: center;
   }
   
-  /* Estilos para el contenedor del formulario */
   .contenedor {
     position: absolute;
     top: 50%;
@@ -187,13 +186,14 @@
     border-radius: 10px;
     color: #fff;
     z-index: 110; /* Asegurar que esté por encima del video */
+    width: 300px; /* Ajusta el ancho del contenedor según sea necesario */
   }
   
   .inputs {
     margin-bottom: 15px;
   }
   
-  .inputs input{
+  .inputs input {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -201,6 +201,7 @@
     background-color: #fff;
     font-size: 16px;
   }
+  
   .inputs select {
     width: 100%;
     padding: 10px;
@@ -218,19 +219,19 @@
     background-color: #1A332E;
     color: #fff;
     cursor: pointer;
+    margin-top: 10px; /* Espacio entre los botones */
   }
   
   .opciones {
-    margin-top: 15px;
+    margin: 15px 0; /* Margen vertical para separar del botón superior e inferior */
     text-align: center;
   }
   
   .opciones p {
-    margin: 0;
+   margin-top: 15px;
   }
   
   .opciones a {
     color: #fff;
     text-decoration: underline;
   }
-  

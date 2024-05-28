@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import { Link } from 'react-router-dom';
 import "./formulario.css";
 import Swal from 'sweetalert2';
@@ -60,6 +60,17 @@ function FormularioInit() {
           </Link>
         </div>
       </header>
+
+      <div className="hero">
+        <video
+          preload="metadata"
+          src="https://admin.dsr-trnje.hr/wp-content/uploads/2023/07/Trnje-Video-Ljeto-DESKTOP.mp4"
+          autoPlay="autoplay"
+          muted="muted"
+          loop="loop"
+          className=""
+        ></video>
+      </div>
       
       <div className="contenedor">
         <form>
@@ -81,13 +92,6 @@ function FormularioInit() {
               placeholder="Password"
               required
             />
-          </div>
-          <div className="opciones">
-            <label>
-              <input type="checkbox" />
-              Remember Me
-            </label>
-            <Link to="#">Forgot Password?</Link>
           </div>
           <button
             onClick={handleLogin}

@@ -1,25 +1,31 @@
+// src/context/AuthContext.jsx
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, db } from "../firebase/config";
-import { createContext, useContext, useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import Swal from 'sweetalert2';
 
-export const authContext = createContext();
+export const AuthContext = createContext();
 
 export const useAuth = () => {
-  const context = useContext(authContext);
+  const context = useContext(AuthContext);
   if (!context) {
-    console.log("error creating auth context");
+    console.error("Error creating auth context");
   }
   return context;
 };
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser ? currentUser : null);
+      if (!currentUser) {
+        console.log("No user");
+        setUser(null);
+      } else {
+        setUser(currentUser);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -44,13 +50,13 @@ export function AuthProvider({ children }) {
         title: 'Registration Error',
         text: error.message,
       });
-      throw error; // Propaga el error para que el formulario pueda manejarlo
+      throw error;
     }
   };
 
   const login = async (email, password) => {
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       Swal.fire({
         icon: 'success',
         title: 'Logged In',
@@ -63,14 +69,14 @@ export function AuthProvider({ children }) {
         title: 'Login Error',
         text: error.message,
       });
-      throw error; // Propaga el error para que el formulario pueda manejarlo
+      throw error;
     }
   };
 
   const loginWithGoogle = async () => {
     try {
-      const responseGoogle = new GoogleAuthProvider();
-      const response = await signInWithPopup(auth, responseGoogle);
+      const googleProvider = new GoogleAuthProvider();
+      const response = await signInWithPopup(auth, googleProvider);
       const userDoc = doc(db, "users", response.user.uid);
       await setDoc(userDoc, {
         email: response.user.email,
@@ -88,7 +94,7 @@ export function AuthProvider({ children }) {
         title: 'Google Login Error',
         text: error.message,
       });
-      throw error; // Propaga el error para que el formulario pueda manejarlo
+      throw error;
     }
   };
 
@@ -107,13 +113,13 @@ export function AuthProvider({ children }) {
         title: 'Logout Error',
         text: error.message,
       });
-      throw error; // Propaga el error para que el formulario pueda manejarlo
+      throw error;
     }
   };
 
   return (
-    <authContext.Provider value={{ registrar, login, loginWithGoogle, logout, user }}>
+    <AuthContext.Provider value={{ registrar, login, loginWithGoogle, logout, user }}>
       {children}
-    </authContext.Provider>
+    </AuthContext.Provider>
   );
-}
+};
