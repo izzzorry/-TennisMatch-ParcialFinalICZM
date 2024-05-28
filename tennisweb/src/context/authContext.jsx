@@ -1,8 +1,7 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, db } from "../firebase/config";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import Swal from 'sweetalert2';
 
 export const AuthContext = createContext();
@@ -20,12 +19,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) {
-        console.log("No user");
-        setUser(null);
-      } else {
-        setUser(currentUser);
-      }
+      setUser(currentUser);
     });
     return () => unsubscribe();
   }, []);
@@ -40,9 +34,10 @@ export const AuthProvider = ({ children }) => {
       });
       Swal.fire({
         icon: 'success',
-        title: 'User Registered',
-        text: 'User has been registered successfully',
+        title: 'Registration Successful',
+        text: 'Your account has been created successfully!',
       });
+      return { user: response.user, role };
     } catch (error) {
       console.error("Error during registration:", error);
       Swal.fire({
@@ -56,12 +51,15 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      const userDoc = await getDoc(doc(db, "users", response.user.uid));
+      const role = userDoc.exists() ? userDoc.data().role : null;
       Swal.fire({
         icon: 'success',
         title: 'Logged In',
         text: 'User has been logged in successfully',
       });
+      return { user: response.user, role };
     } catch (error) {
       console.error("Error during login:", error);
       Swal.fire({
@@ -80,13 +78,14 @@ export const AuthProvider = ({ children }) => {
       const userDoc = doc(db, "users", response.user.uid);
       await setDoc(userDoc, {
         email: response.user.email,
-        role: "user",
+        role: "client",
       }, { merge: true });
       Swal.fire({
         icon: 'success',
         title: 'Google Login',
         text: 'User has been logged in with Google successfully',
       });
+      return { user: response.user, role: "client" };
     } catch (error) {
       console.error("Error during Google login:", error);
       Swal.fire({

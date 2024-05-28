@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./formulario.css";
 import Swal from 'sweetalert2';
 
-
 function FormuRegistro() {
   const auth = useAuth();
+  const navigate = useNavigate();
   const [emailRegister, setEmailRegister] = useState("");
   const [passwordRegister, setPasswordRegister] = useState("");
   const [name, setName] = useState("");
@@ -21,11 +21,12 @@ function FormuRegistro() {
         title: 'Registration Successful',
         text: 'Your account has been created successfully!',
       });
-      // Clear the inputs
-      setEmailRegister("");
-      setPasswordRegister("");
-      setName("");
-      setRole("client");
+      // Redirect based on role
+      if (role === 'admin') {
+        navigate('/indexadmin');
+      } else {
+        navigate('/index');
+      }
     } catch (error) {
       Swal.fire({
         icon: 'error',

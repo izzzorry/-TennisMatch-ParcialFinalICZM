@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./formulario.css";
 import Swal from 'sweetalert2';
 
 function FormularioInit() {
   const auth = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await auth.login(email, password);
+      const { role } = await auth.login(email, password);
+      if (role === 'Administrator') {
+        navigate('/indexadmin');
+      } else {
+        navigate('/index');
+      }
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -25,7 +31,12 @@ function FormularioInit() {
   const handleGoogle = async (e) => {
     e.preventDefault();
     try {
-      await auth.loginWithGoogle();
+      const { role } = await auth.loginWithGoogle();
+      if (role === 'Administrator') {
+        navigate('/indexadmin');
+      } else {
+        navigate('/index');
+      }
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -115,3 +126,4 @@ function FormularioInit() {
 }
 
 export default FormularioInit;
+

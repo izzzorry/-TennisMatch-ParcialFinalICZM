@@ -8,6 +8,7 @@ import FormuRegistro from './components/FormuReg';
 import Index from './components/contenidolog';
 import { db } from './firebase/config';
 import { doc, getDoc } from "firebase/firestore";
+import Indux from './components/contenidoadmin';
 
 const AppRoutes = () => {
   const { user } = useContext(AuthContext); // Obteniendo el usuario del contexto de autenticación
@@ -28,7 +29,7 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {role === 'Administrator' && <Route path="/indexadmin" element={<Index />} />}
+      {role === 'Administrator' && <Route path="/indexadmin" element={<Indux />} />}
       {role === 'Client' && <Route path="/index" element={<Index />} />}
       <Route path="/" element={<Contenido />} />
       <Route path="/register" element={<FormuRegistro />} />
