@@ -15,6 +15,16 @@ function FormuRegistro() {
     e.preventDefault();
     try {
       await auth.registrar(emailRegister, passwordRegister, name, role);
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration Successful',
+        text: 'Your account has been created successfully!',
+      });
+      // Clear the inputs
+      setEmailRegister("");
+      setPasswordRegister("");
+      setName("");
+      setRole("client");
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -67,6 +77,7 @@ function FormuRegistro() {
           <div className="inputs">
             <input
               onChange={(e) => setName(e.target.value)}
+              value={name}  // Enlazar el valor del estado
               type="text"
               id="fname"
               placeholder="Name"
@@ -76,6 +87,7 @@ function FormuRegistro() {
           <div className="inputs">
             <input
               onChange={(e) => setEmailRegister(e.target.value)}
+              value={emailRegister}  // Enlazar el valor del estado
               type="text"
               id="femail"
               placeholder="Email"
@@ -85,6 +97,7 @@ function FormuRegistro() {
           <div className="inputs">
             <input
               onChange={(e) => setPasswordRegister(e.target.value)}
+              value={passwordRegister}  // Enlazar el valor del estado
               type="password"
               id="fpassword"
               placeholder="Password"
@@ -92,7 +105,11 @@ function FormuRegistro() {
             />
           </div>
           <div className="inputs">
-            <select onChange={(e) => setRole(e.target.value)} required>
+            <select
+              onChange={(e) => setRole(e.target.value)}
+              value={role}  // Enlazar el valor del estado
+              required
+            >
               <option value="client">Client</option>
               <option value="admin">Administrator</option>
             </select>
