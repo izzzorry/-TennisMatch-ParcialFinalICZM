@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./componentes.css"
+import "./componentes.css";
 
 const Contenido = () => {
   return (
     <>
       <header className="header">
+      <Link to="/">
         <div className="logo-container">
           <img src="src/assets/tennis-svgrepo-com.svg" alt="DSR TRNJE Logo" className="logo" />
           <div className="title">
@@ -13,16 +14,17 @@ const Contenido = () => {
             <p>Liga's website</p>
           </div>
         </div>
+        </Link>
         <nav className="navigation">
-          <a href="#categorias">Categories</a>
-          <a href="#torneos">Tournaments</a>
+          <Link to="#categorias">Categories</Link>
+          <Link to="#torneos">Tournaments</Link>
         </nav>
         <div className="button-container">
           <Link to="/login">
-            <button className="btn-init">Iniciar sesión</button>
+            <button className="btn-init">Login</button>
           </Link>
           <Link to="/register">
-            <button className="btn-reg">Registro</button>
+            <button className="btn-reg">Register</button>
           </Link>
         </div>
       </header>
@@ -30,26 +32,17 @@ const Contenido = () => {
         <video
           preload="metadata"
           src="https://admin.dsr-trnje.hr/wp-content/uploads/2023/07/Trnje-Video-Ljeto-DESKTOP.mp4"
-          autoplay="autoplay"
+          autoPlay="autoplay"
           muted="muted"
           loop="loop"
-          className="absolute top-0 left-0 w-full h-full object-cover object-center"
-          data-v-1e51cfeb=""
+          className=""
         ></video>
       </div>
-      <div className="categorias">
-
-
-      </div>
-      <div className="torneos">
-
-      </div>
-
-      <footer>
-
-      </footer>
+      <div className="categorias"></div>
+      <div className="torneos"></div>
+      <footer></footer>
     </>
   );
-}
+};
 
 export default Contenido;

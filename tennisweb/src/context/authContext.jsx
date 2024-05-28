@@ -2,6 +2,7 @@ import { auth, db } from "../firebase/config";
 import { createContext, useContext, useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
+import Swal from 'sweetalert2';
 
 export const authContext = createContext();
 
@@ -18,26 +19,31 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) {
-        console.log("No user subscribed");
-        setUser(null);
-      } else {
-        setUser(currentUser);
-      }
+      setUser(currentUser ? currentUser : null);
     });
     return () => unsubscribe();
   }, []);
 
-  const registrar = async (email, password, role) => {
+  const registrar = async (email, password, name, role) => {
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
       await setDoc(doc(db, "users", response.user.uid), {
-        email: email,
-        role: role,
+        email,
+        name,
+        role,
       });
-      console.log("User registered and saved in Firestore:", response.user);
+      Swal.fire({
+        icon: 'success',
+        title: 'User Registered',
+        text: 'User has been registered successfully',
+      });
     } catch (error) {
       console.error("Error during registration:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Error',
+        text: error.message,
+      });
       throw error; // Propaga el error para que el formulario pueda manejarlo
     }
   };
@@ -45,9 +51,18 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log("User logged in:", response.user);
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged In',
+        text: 'User has been logged in successfully',
+      });
     } catch (error) {
       console.error("Error during login:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Error',
+        text: error.message,
+      });
       throw error; // Propaga el error para que el formulario pueda manejarlo
     }
   };
@@ -61,19 +76,37 @@ export function AuthProvider({ children }) {
         email: response.user.email,
         role: "user",
       }, { merge: true });
-      console.log("User logged in with Google and saved in Firestore:", response.user);
+      Swal.fire({
+        icon: 'success',
+        title: 'Google Login',
+        text: 'User has been logged in with Google successfully',
+      });
     } catch (error) {
       console.error("Error during Google login:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Google Login Error',
+        text: error.message,
+      });
       throw error; // Propaga el error para que el formulario pueda manejarlo
     }
   };
 
   const logout = async () => {
     try {
-      const response = await signOut(auth);
-      console.log("User logged out:", response);
+      await signOut(auth);
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged Out',
+        text: 'User has been logged out successfully',
+      });
     } catch (error) {
       console.error("Error during logout:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Logout Error',
+        text: error.message,
+      });
       throw error; // Propaga el error para que el formulario pueda manejarlo
     }
   };

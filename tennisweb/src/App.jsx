@@ -1,4 +1,4 @@
-import './App.css';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/authContext';
 import Contenido from './components/Contenido';
@@ -11,8 +11,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Contenido />} />
-          <Route path="/register" element={<FormuRegistro/>} />
-          <Route path="/login" element={<FormularioInit/>} />
+          <Route path="/register" element={<FormuRegistro />} />
+          <Route path="/login" element={<FormularioInit />} />
         </Routes>
       </Router>
     </AuthProvider>

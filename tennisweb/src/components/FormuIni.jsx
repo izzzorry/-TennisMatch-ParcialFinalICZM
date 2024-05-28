@@ -1,41 +1,62 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext";
+import { Link } from 'react-router-dom';
+import "./formulario.css";
+import Swal from 'sweetalert2';
 
 function FormularioInit() {
   const auth = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    auth.login(email, password);
+    try {
+      await auth.login(email, password);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Error',
+        text: error.message,
+      });
+    }
   };
-  const handleGoogle = (e) => {
+
+  const handleGoogle = async (e) => {
     e.preventDefault();
-    auth.loginWithGoogle();
+    try {
+      await auth.loginWithGoogle();
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Google Login Error',
+        text: error.message,
+      });
+    }
   };
 
   return (
     <>
-
-<header className="header">
-        <div className="logo-container">
-          <img src="src/assets/tennis-svgrepo-com.svg" alt="DSR TRNJE Logo" className="logo" />
-          <div className="title">
-            <h1>Tenis Web</h1>
-            <p>Liga's website</p>
+      <header className="header">
+        <Link to="/">
+          <div className="logo-container">
+            <img src="src/assets/tennis-svgrepo-com.svg" alt="DSR TRNJE Logo" className="logo" />
+            <div className="title">
+              <h1>Tenis Web</h1>
+              <p>Liga's website</p>
+            </div>
           </div>
-        </div>
+        </Link>
         <nav className="navigation">
-          <a href="#categorias">Categories</a>
-          <a href="#torneos">Tournaments</a>
+          <Link to="#categorias">Categories</Link>
+          <Link to="#torneos">Tournaments</Link>
         </nav>
         <div className="button-container">
           <Link to="/login">
-            <button className="btn-init">Iniciar sesión</button>
+            <button className="btn-init">Login</button>
           </Link>
           <Link to="/register">
-            <button className="btn-reg">Registro</button>
+            <button className="btn-reg">Register</button>
           </Link>
         </div>
       </header>
@@ -51,7 +72,6 @@ function FormularioInit() {
               placeholder="Email"
               required
             />
-            <i className="bx bxs-user"></i>
           </div>
           <div className="inputs">
             <input
@@ -61,17 +81,16 @@ function FormularioInit() {
               placeholder="Password"
               required
             />
-            <i className="bx bxs-lock"></i>
           </div>
           <div className="opciones">
             <label>
               <input type="checkbox" />
               Remember Me
             </label>
-            <a href="#">Forgot Password?</a>
+            <Link to="#">Forgot Password?</Link>
           </div>
           <button
-            onClick={(e) => handleLogin(e)}
+            onClick={handleLogin}
             type="submit"
             className="btn-form"
           >
@@ -79,10 +98,10 @@ function FormularioInit() {
           </button>
           <div className="opciones">
             <p>
-              Don't have an account? <a href="#">Register</a>
+              Don't have an account? <Link to="/register">Register</Link>
             </p>
           </div>
-          <button onClick={(e) => handleGoogle(e)} className="btn-form">
+          <button onClick={handleGoogle} className="btn-form">
             Google Login
           </button>
         </form>
