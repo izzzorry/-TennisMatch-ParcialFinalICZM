@@ -12,7 +12,6 @@
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   }
   
-  
   .logo-container {
     display: flex;
     align-items: center;
@@ -194,11 +193,21 @@
     margin-bottom: 15px;
   }
   
-  .inputs input {
+  .inputs input{
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 16px;
+  }
+  .inputs select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 16px;
   }
   
   .btn-form {
