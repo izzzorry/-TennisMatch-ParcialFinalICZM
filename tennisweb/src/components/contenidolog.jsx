@@ -1,34 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase/config'; // Asegúrate de importar correctamente la configuración de Firebase
-import { useAuth } from '../context/AuthContext'; // Importar el contexto de autenticación
+import { getDocs, collection, updateDoc, arrayUnion, doc } from 'firebase/firestore';
+import { db } from '../firebase/config'; 
+import { useAuth } from '../context/AuthContext';
 import Swal from 'sweetalert2';
 import "./componentes.css";
 
-const Index = () => {
-  const { user, logout } = useAuth(); // Obtener el usuario del contexto de autenticación
-  const [tournaments, setTournaments] = useState([]);
-  const [modalData, setModalData] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, "torneos"));
-      const tournamentList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setTournaments(tournamentList);
-    };
-    fetchData();
-  }, []);
-
-  const showModal = (tournament) => {
-    setModalData(tournament);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+const Index = ({ user, tournaments, showModal, closeModal, modalData, isModalOpen }) => {
+  const { logout } = useAuth(); 
 
   const handleEnroll = async () => {
     if (!user) {
@@ -57,7 +36,7 @@ const Index = () => {
   return (
     <>
       <header className="header">
-        <Link to="/index">
+        <Link to="/">
           <div className="logo-container">
             <img src="src/assets/tennis-svgrepo-com.svg" alt="DSR TRNJE Logo" className="logo" />
             <div className="title">
@@ -105,7 +84,7 @@ const Index = () => {
               <p><strong>Category:</strong> {modalData.category}</p>
               <p><strong>Description:</strong> {modalData.description}</p>
               <p><strong>Location:</strong> {modalData.location}</p>
-              <button onClick={handleEnroll}>Inscribirse</button> {/* Botón de inscripción */}
+              <button onClick={handleEnroll}>Inscribirse</button> 
             </div>
           </div>
         )}

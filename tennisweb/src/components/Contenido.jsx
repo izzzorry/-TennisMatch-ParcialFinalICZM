@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getDocs, collection } from 'firebase/firestore';
-import { db } from '../firebase/config'; // Asegúrate de importar correctamente la configuración de Firebase
+import { db } from '../firebase/config'; 
+import { useAuth } from '../context/AuthContext';
+import Index from './contenidolog';
+import Indux from './contenidoadmin';
 import "./componentes.css";
 
-const Contenido = () => {
+const Contenido = ({ user, role }) => {
+  const { logout } = useAuth(); 
   const [tournaments, setTournaments] = useState([]);
   const [modalData, setModalData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +30,15 @@ const Contenido = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  if (user) {
+    if (role === 'Administrator') {
+      return <Indux user={user} tournaments={tournaments} showModal={showModal} closeModal={closeModal} modalData={modalData} isModalOpen={isModalOpen} />;
+    }
+    if (role === 'Client') {
+      return <Index user={user} tournaments={tournaments} showModal={showModal} closeModal={closeModal} modalData={modalData} isModalOpen={isModalOpen} />;
+    }
+  }
 
   return (
     <>
@@ -93,5 +106,6 @@ const Contenido = () => {
 };
 
 export default Contenido;
+
 
 

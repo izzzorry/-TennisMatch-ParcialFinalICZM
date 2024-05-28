@@ -1,18 +1,16 @@
-// src/App.jsx
 import React, { useEffect, useState, useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider, AuthContext } from './context/AuthContext'; // Asegúrate de que la ruta sea correcta
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, AuthContext } from './context/AuthContext'; 
 import Contenido from './components/Contenido';
 import FormularioInit from './components/FormuIni';
 import FormuRegistro from './components/FormuReg';
-import Index from './components/contenidolog';
 import { db } from './firebase/config';
 import { doc, getDoc } from "firebase/firestore";
-import Indux from './components/contenidoadmin';
 
 const AppRoutes = () => {
-  const { user } = useContext(AuthContext); // Obteniendo el usuario del contexto de autenticación
+  const { user } = useContext(AuthContext); 
   const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUserRole = async (id) => {
@@ -20,20 +18,26 @@ const AppRoutes = () => {
       if (userDoc.exists()) {
         setRole(userDoc.data().role);
       }
+      setLoading(false); // Termina la carga después de obtener el rol
     };
 
     if (user) {
-      getUserRole(user.uid); // Obtén el rol del usuario autenticado
+      getUserRole(user.uid); 
+    } else {
+      setLoading(false); 
     }
   }, [user]);
 
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
+
   return (
     <Routes>
-      {role === 'Administrator' && <Route path="/indexadmin" element={<Indux />} />}
-      {role === 'Client' && <Route path="/index" element={<Index />} />}
-      <Route path="/" element={<Contenido />} />
+      <Route path="/" element={<Contenido user={user} role={role} />} />
       <Route path="/register" element={<FormuRegistro />} />
       <Route path="/login" element={<FormularioInit />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

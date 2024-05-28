@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
-import { db, storage } from '../firebase/config'; // Asegúrate de importar correctamente la configuración de Firebase y Storage
-import { useAuth } from '../context/AuthContext'; // Importar el contexto de autenticación
+import { db, storage } from '../firebase/config'; 
+import { useAuth } from '../context/AuthContext'; 
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Swal from 'sweetalert2';
 import "./componentes.css";
 
-const Indux = () => {
-  const { user } = useAuth(); // Obtener el usuario del contexto de autenticación
-  const [tournaments, setTournaments] = useState([]);
-  const [modalData, setModalData] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const Indux = ({ user, tournaments, showModal, closeModal, modalData, isModalOpen }) => {
+  const { logout } = useAuth(); 
   const [isEditing, setIsEditing] = useState(false);
   const [editedTournament, setEditedTournament] = useState({
     tournament_name: '',
@@ -23,24 +20,8 @@ const Indux = () => {
   const [newPoster, setNewPoster] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, "torneos"));
-      const tournamentList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setTournaments(tournamentList);
-    };
-    fetchData();
-  }, []);
-
-  const showModal = (tournament) => {
-    setModalData(tournament);
-    setEditedTournament(tournament);
-    setIsModalOpen(true);
-    setIsEditing(false);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+    setEditedTournament(modalData);
+  }, [modalData]);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -79,7 +60,7 @@ const Indux = () => {
   return (
     <>
       <header className="header">
-        <Link to="/index">
+        <Link to="/">
           <div className="logo-container">
             <img src="src/assets/tennis-svgrepo-com.svg" alt="DSR TRNJE Logo" className="logo" />
             <div className="title">
@@ -93,7 +74,7 @@ const Indux = () => {
           <Link to="#torneos">Tournaments</Link>
         </nav>
         <div className="button-container">
-          <button className="btn-init">Logout</button>
+          <button className="btn-init" onClick={logout}>Logout</button>
         </div>
       </header>
       <div className="hero">
@@ -178,3 +159,4 @@ const Indux = () => {
 };
 
 export default Indux;
+
