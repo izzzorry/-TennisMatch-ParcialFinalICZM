@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, AuthContext } from './context/AuthContext'; 
+import { AuthProvider, AuthContext } from './context/authContext'; 
 import Contenido from './components/Contenido';
 import FormularioInit from './components/FormuIni';
 import FormuRegistro from './components/FormuReg';

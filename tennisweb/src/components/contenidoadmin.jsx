@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
 import { db, storage } from '../firebase/config'; 
-import { useAuth } from '../context/AuthContext'; 
+import { useAuth } from '../context/authContext'; 
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Swal from 'sweetalert2';
 import "./componentes.css";
