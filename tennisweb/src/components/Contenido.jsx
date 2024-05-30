@@ -188,7 +188,7 @@ const Contenido = () => {
       <header className="header">
         <div className="logo-container">
           <Link to="/">
-            <img src="src/assets/tennis-svgrepo-com.svg" alt="DSR TRNJE Logo" className="logo" />
+            <img src="tennisweb/public/tennis-svgrepo-com.svg" alt="Tennis Logo" className="logo" />
             <div className="title">
               <h1>Tenis Web</h1>
               <p>Liga's website</p>
