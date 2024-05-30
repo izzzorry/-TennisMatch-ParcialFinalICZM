@@ -4,14 +4,16 @@
   justify-content: space-between;
   align-items: center;
   background-color: #1A332E; /* Color de la barra de navegación */
-  padding: 10px 20px;
+  padding: 10px 10%;
   position: relative; /* Asegura que el menú desplegable se posicione relativo al header */
   z-index: 100;
 }
 
+
 .logo-container {
   display: flex;
   align-items: center;
+  padding: 0 2%;
 }
 
 .logo-container .logo {
@@ -27,17 +29,21 @@
 .navigation {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 80px;
 }
 
 .categories-link-wrapper,
 .tournaments-link-wrapper {
   position: relative;
 }
+.categories-link,.tournaments-link{
+  color: white;
+  font-size: 20px;
+}
 
 .button-container {
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .btn-init, .btn-reg {
@@ -77,35 +83,36 @@
   display: flex;
   justify-content: center;
   margin: 20px 0;
+  width: 100%; /* Ocupa todo el ancho de la pantalla */
 }
 
 .search-bar input {
-  width: 80%;
+  width: 90%; /* Ajusta el ancho del input */
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: #f0f0f0; /* Color de fondo gris claro */
 }
 
-/* Tournaments Section */
-.torneos {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+/* Categories Section */
+.categorias {
+  padding: 20px;
+  background-color: #f8f9fa;
+  text-align: center; /* Centrar el texto */
 }
 
-#tournament-container {
+.categories-container {
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
-  justify-content: center;
+  gap: 20px;
 }
 
 .card {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 16px;
-  margin: 16px;
   text-align: center;
   width: 300px;
 }
@@ -114,6 +121,57 @@
   width: 100%;
   height: auto;
   border-radius: 5px;
+}
+
+.card h3 {
+  margin: 10px 0;
+}
+
+.card button {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #e64a19;
+}
+
+/* Tournaments Section */
+.torneos {
+  padding: 20px;
+  background-color: #ffffff;
+  text-align: center; /* Centrar el texto */
+}
+
+#tournament-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 16px;
+  text-align: center;
+  width: 300px;
+  
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.card h3 {
+  margin: 10px 0;
 }
 
 .card button {
@@ -169,48 +227,6 @@
   cursor: pointer;
 }
 
-/* Dropdown Menu */
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%; /* Ajustar para alinearlo con el logo */
-  left: 0;
-  background-color: #1A332E; /* Mismo color que la barra de navegación */
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  width: 100vw; /* Ocupar todo el ancho de la página */
-  padding: 20px; /* Añadir padding para el contenido */
-  display: flex; /* Alinear elementos en horizontal */
-  justify-content: space-around; /* Espacio entre elementos */
-}
-
-.dropdown-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  color: #ffffff; /* Color del texto */
-}
-
-.dropdown-item img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  margin-bottom: 10px;
-}
-
-.dropdown-item p {
-  margin: 0;
-  font-size: 16px;
-}
-
-.categories-link-wrapper:hover .dropdown-menu,
-.tournaments-link-wrapper:hover .dropdown-menu,
-.dropdown-menu:hover {
-  display: flex;
-}
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -284,45 +300,329 @@
   }
 }
 
-/* Dropdown Menu for Tournaments */
-.tournaments-link-wrapper:hover .dropdown-menu-tournaments,
-.dropdown-menu-tournaments:hover {
-  display: flex;
-}
 
-.dropdown-menu-tournaments {
-  display: none;
-  position: absolute;
-  top: 100%; /* Ajustar para alinearlo con el logo */
-  left: 0;
-  background-color: #1A332E; /* Mismo color que la barra de navegación */
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  width: 100vw; /* Ocupar todo el ancho de la página */
-  padding: 20px; /* Añadir padding para el contenido */
-  display: flex; /* Alinear elementos en horizontal */
-  justify-content: space-around; /* Espacio entre elementos */
-}
 
-.dropdown-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  color: #ffffff; /* Color del texto */
-}
+/* Ajustes al header para hacerlo más grande */
+.header {
+    background-color: #1A332E;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0; /* Eliminar padding horizontal */
+    width: 100%; /* Asegurar que ocupe el 100% del ancho */
+    position: sticky;
+    top: 0;
+    z-index: 105;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 50px; /* Aumentar tamaño del logo */
+    margin-right: 15px;
+  }
+  
+  .title {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .title p {
+    margin: 0;
+    font-size: 16px; /* Aumentar tamaño de fuente */
+    color: #ffffff;
+  }
+  
+  .title h1 {
+    margin: 0;
+    font-size: 24px; /* Aumentar tamaño de fuente */
+    color: #ffffff;
+  }
+  
+  .navigation {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .navigation a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px; /* Aumentar tamaño de fuente */
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 10px;
+    padding-right: 2%; /* Añadir padding para el contenido */
+  }
+  
+  .btn-init,
+  .btn-reg {
+    padding: 12px 15px; /* Aumentar padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px; /* Aumentar tamaño de fuente */
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid transparent;
+  }
+  
+  .btn-init {
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+  
+  .btn-reg {
+    border-color: #f2f2f2;
+    color: #ffffff;
+  }
+  
+  .btn-init:hover,
+  .btn-reg:hover {
+    background-color: #ffffff;
+    color: #1A332E;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      padding: 20px 4%; /* Incrementar padding vertical en pantallas más pequeñas */
+    }
+    
+    .logo {
+      width: 40px;
+      margin-right: 10px;
+    }
+    
+    .title h1 {
+      font-size: 22px;
+    }
+    
+    .title p {
+      font-size: 14px;
+    }
+    
+    .navigation {
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .navigation a {
+      font-size: 16px;
+    }
+    
+    .button-container {
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 10px;
+    }
+    
+    .btn-init,
+    .btn-reg {
+      font-size: 14px;
+      padding: 10px 20px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header {
+      padding: 16px 2%;
+    }
+    
+    .logo {
+      width: 35px;
+      margin-right: 8px;
+    }
+    
+    .title h1 {
+      font-size: 20px;
+    }
+    
+    .title p {
+      font-size: 12px;
+    }
+    
+    .navigation a {
+      font-size: 14px;
+    }
+    
+    .btn-init,
+    .btn-reg {
+      font-size: 12px;
+      padding: 8px 16px;
+    }
+  }
+  
+  /* Ajustes al video para que ocupe toda la pantalla horizontalmente */
+  .hero {
+    position: relative;
+    width: 100vw; /* Asegurar que el video ocupe todo el ancho de la ventana */
+    height: 100vh; /* Asegurar que el video ocupe toda la altura de la ventana */
+    overflow: hidden;
+  }
+  
+  .hero video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .contenedor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    z-index: 110; /* Asegurar que esté por encima del video */
+    width: 300px; /* Ajusta el ancho del contenedor según sea necesario */
+  }
+  
+  .inputs {
+    margin-bottom: 15px;
+  }
+  
+  .inputs input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 16px;
+  }
+  
+  .inputs select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 16px;
+  }
+  
+  .btn-form {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #1A332E;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px; /* Espacio entre los botones */
+  }
+  
+  .opciones {
+    margin: 15px 0; /* Margen vertical para separar del botón superior e inferior */
+    text-align: center;
+  }
+  
+  .opciones p {
+   margin-top: 15px;
+  }
+  
+  .opciones a {
+    color: #fff;
+    text-decoration: underline;
+  }
 
-.dropdown-item img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  margin-bottom: 10px;
-}
 
-.dropdown-item p {
-  margin: 0;
-  font-size: 16px;
-}
 
+
+  .contenedor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    z-index: 110; /* Asegurar que esté por encima del video */
+    width: 300px; /* Ajusta el ancho del contenedor según sea necesario */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .inputs {
+    margin-bottom: 15px;
+  }
+  
+  .inputs input{
+    width: 93%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 16px;
+    margin-top: 10px; /* Espacio entre los inputs */
+  }
+
+  .inputs select{width: 99%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 16px;
+    margin-top: 10px; }
+  
+  .btn-form {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ff5722;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px; /* Espacio entre los botones */
+    font-size: 16px;
+  }
+  
+  .btn-form:hover {
+    background-color: #e64a19;
+  }
+  
+  .opciones {
+    margin: 15px 0; /* Margen vertical para separar del botón superior e inferior */
+    text-align: center;
+  }
+  
+  .opciones p {
+    margin-top: 15px;
+  }
+  
+  .opciones span {
+    color: #ff5722;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #fff;
+  }
+  
+  .tournament-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }

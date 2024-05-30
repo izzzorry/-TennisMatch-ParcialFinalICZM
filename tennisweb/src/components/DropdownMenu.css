@@ -1,36 +1,44 @@
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%; /* Ajustar para alinearlo con el logo */
-    left: 0;
-    background-color: #1A332E; /* Mismo color que la barra de navegación */
-    border: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    width: 100vw; /* Ocupar todo el ancho de la página */
-    padding: 20px; /* Añadir padding para el contenido */
-    display: flex; /* Alinear elementos en horizontal */
-    justify-content: space-around; /* Espacio entre elementos */
-  }
-  
-  .dropdown-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    color: #ffffff; /* Color del texto */
-  }
-  
-  .dropdown-item img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    margin-bottom: 10px;
-  }
-  
-  .dropdown-item p {
-    margin: 0;
-    font-size: 16px;
-  }
-  
+/* Dropdown Menu */
+.dropdown-menu,
+.dropdown-menu-tournaments {
+  display: none;
+  position: absolute;
+  top: 100%; /* Ajustar para alinearlo con el logo */
+  left: 0;
+  background-color: #1A332E; /* Mismo color que la barra de navegación */
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 100vw; /* Ocupar todo el ancho de la página */
+  padding: 20px; /* Añadir padding para el contenido */
+  display: flex; /* Alinear elementos en horizontal */
+  justify-content: space-around; /* Espacio entre elementos */
+}
+
+.dropdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  color: #ffffff; /* Color del texto */
+}
+
+.dropdown-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.dropdown-item p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.categories-link-wrapper:hover .dropdown-menu,
+.tournaments-link-wrapper:hover .dropdown-menu-tournaments,
+.dropdown-menu:hover,
+.dropdown-menu-tournaments:hover {
+  display: flex;
+}

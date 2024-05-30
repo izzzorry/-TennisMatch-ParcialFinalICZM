@@ -1,56 +1,160 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { getDocs, collection, updateDoc, arrayUnion, doc } from 'firebase/firestore';
-import { db } from '../firebase/config'; 
-import { useAuth } from '../context/authContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { getDocs, collection, updateDoc, doc, getDoc } from 'firebase/firestore'; // Importa getDoc aquí
+import { db } from '../firebase/config';
+import { useAuth } from '../context/AuthContext';
 import Swal from 'sweetalert2';
+import SearchBar from './SearchBar';
+import DropdownMenu from './DropdownMenu';
+import DropdownTournaments from './DropdownTournaments';
 import "./componentes.css";
 
-const Index = ({ user, tournaments, showModal, closeModal, modalData, isModalOpen }) => {
-  const { logout } = useAuth(); 
+const ContenidoClient = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [tournaments, setTournaments] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [modalData, setModalData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [isTournamentsDropdownVisible, setTournamentsDropdownVisible] = useState(false);
 
-  const handleEnroll = async () => {
-    if (!user) {
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, "torneos"));
+      const tournamentList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setTournaments(tournamentList);
+    };
+    fetchData();
+  }, []);
+
+  const filteredTournaments = tournaments.filter(tournament =>
+    tournament.tournament_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const getRandomTournament = (category) => {
+    const categoryTournaments = tournaments.filter(tournament => tournament.category === category);
+    if (categoryTournaments.length > 0) {
+      return categoryTournaments[Math.floor(Math.random() * categoryTournaments.length)];
+    }
+    return null;
+  };
+
+  const renderCategory = (category) => {
+    const tournament = getRandomTournament(category);
+    if (tournament) {
+      return (
+        <div className="card" key={tournament.id}>
+          <img src={tournament.poster} alt={category} />
+          <h3>{category}</h3>
+        </div>
+      );
+    }
+    return (
+      <div className="card" key={category}>
+        <p>No tournaments available for {category}</p>
+      </div>
+    );
+  };
+
+  const showModal = (tournament) => {
+    setModalData(tournament);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCategoriesClick = () => {
+    setDropdownVisible(!isDropdownVisible);
+    setTournamentsDropdownVisible(false);
+  };
+
+  const handleTournamentsClick = () => {
+    setTournamentsDropdownVisible(!isTournamentsDropdownVisible);
+    setDropdownVisible(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged out',
+        text: 'You have successfully logged out!',
+      });
+      navigate('/');
+    } catch (error) {
       Swal.fire({
         icon: 'error',
+        title: 'Logout Error',
+        text: error.message,
+      });
+    }
+  };
+
+  const handleRegisterToTournament = async (tournamentId) => {
+    if (!user) {
+      Swal.fire({
+        icon: 'warning',
         title: 'Not Logged In',
-        text: 'You need to be logged in to enroll in a tournament.',
+        text: 'You need to log in to register for a tournament.',
       });
       return;
     }
 
-    const tournamentRef = doc(db, 'torneos', modalData.id);
-    await updateDoc(tournamentRef, {
-      participants: arrayUnion(user.displayName)
-    });
+    const tournamentDoc = doc(db, "torneos", tournamentId);
+    try {
+      const tournamentSnapshot = await getDoc(tournamentDoc);
+      const tournamentData = tournamentSnapshot.data();
+      const updatedParticipants = tournamentData.participants ? [...tournamentData.participants, user.displayName] : [user.displayName];
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Enrolled',
-      text: 'You have been successfully enrolled in the tournament.',
-    });
-
-    closeModal();
+      await updateDoc(tournamentDoc, {
+        participants: updatedParticipants
+      });
+      Swal.fire({
+        icon: 'success',
+        title: 'Registered',
+        text: 'You have successfully registered for the tournament!',
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Error',
+        text: error.message,
+      });
+    }
   };
 
   return (
     <>
       <header className="header">
-        <Link to="/">
-          <div className="logo-container">
+        <div className="logo-container">
+          <Link to="/">
             <img src="src/assets/tennis-svgrepo-com.svg" alt="DSR TRNJE Logo" className="logo" />
             <div className="title">
               <h1>Tenis Web</h1>
               <p>Liga's website</p>
             </div>
-          </div>
-        </Link>
+          </Link>
+        </div>
         <nav className="navigation">
-          <Link to="#categorias">Categories</Link>
-          <Link to="#torneos">Tournaments</Link>
+          <div className="categories-link-wrapper">
+            <div className="categories-link" onClick={handleCategoriesClick}>Categories</div>
+            {isDropdownVisible && (
+              <DropdownMenu onMouseEnter={handleCategoriesClick} onMouseLeave={handleCategoriesClick} />
+            )}
+          </div>
+          <div className="tournaments-link-wrapper">
+            <div className="tournaments-link" onClick={handleTournamentsClick}>Tournaments</div>
+            {isTournamentsDropdownVisible && (
+              <DropdownTournaments onMouseEnter={handleTournamentsClick} onMouseLeave={handleTournamentsClick} />
+            )}
+          </div>
         </nav>
         <div className="button-container">
-          <button className="btn-init" onClick={logout}>Logout</button>
+          <button className="btn-init" onClick={handleLogout}>Logout</button>
         </div>
       </header>
       <div className="hero">
@@ -62,16 +166,25 @@ const Index = ({ user, tournaments, showModal, closeModal, modalData, isModalOpe
           loop
           className="hero-video"
         ></video>
-      </div>
-      <div className="categorias" id="categorias"></div>
-      <div className="torneos" id="torneos">
+      </div>  
+
+      <section className="categorias" id="categorias">
+        <h1>Categories</h1>
+        <div className="categories-container">
+          {renderCategory('Children')}
+          {renderCategory('Youth')}
+          {renderCategory('Adults')}
+        </div>
+      </section>
+      <section className="torneos" id="torneos">
         <h1>Tournaments</h1>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <div id="tournament-container">
-          {tournaments.map((tournament) => (
+          {filteredTournaments.map((tournament) => (
             <div className="card" key={tournament.id}>
               <img src={tournament.poster} alt={tournament.tournament_name} />
               <h3>{tournament.tournament_name}</h3>
-              <button onClick={() => showModal(tournament)}>Ver más</button>
+              <button onClick={() => showModal(tournament)}>See more</button>
             </div>
           ))}
         </div>
@@ -84,14 +197,14 @@ const Index = ({ user, tournaments, showModal, closeModal, modalData, isModalOpe
               <p><strong>Category:</strong> {modalData.category}</p>
               <p><strong>Description:</strong> {modalData.description}</p>
               <p><strong>Location:</strong> {modalData.location}</p>
-              <button onClick={handleEnroll}>Inscribirse</button> 
+              <button onClick={() => handleRegisterToTournament(modalData.id)}>Register</button>
             </div>
           </div>
         )}
-      </div>
+      </section>
       <footer></footer>
     </>
   );
 };
 
-export default Index;
+export default ContenidoClient;
