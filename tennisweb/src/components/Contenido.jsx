@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getDocs, collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config'; 
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/Contextualizador';
 import Swal from 'sweetalert2';
 import SearchBar from './SearchBar';
-import DropdownMenu from './DropdownMenu';
-import DropdownTournaments from './DropdownTournaments'; 
 import "./componentes.css";
 
 const Contenido = () => {

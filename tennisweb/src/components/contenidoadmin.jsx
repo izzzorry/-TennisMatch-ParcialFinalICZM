@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate
 import { getDocs, collection, addDoc, updateDoc, doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db } from '../firebase/config';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/Contextualizador';
 import Swal from 'sweetalert2';
 import SearchBar from './SearchBar';
 import DropdownMenu from './DropdownMenu';
