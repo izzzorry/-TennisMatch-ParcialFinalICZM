@@ -132,7 +132,7 @@ const ContenidoClient = () => {
       <header className="header">
         <div className="logo-container">
           <Link to="/">
-            <img src="tennisweb/public/tennis-svgrepo-com.svg" alt="TennisLogo" className="logo" />
+            <img src="tennis-svgrepo-com.svg" alt="TennisLogo" className="logo" />
             <div className="title">
               <h1>Tenis Web</h1>
               <p>Liga's website</p>

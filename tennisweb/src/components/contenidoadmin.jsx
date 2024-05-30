@@ -10,6 +10,8 @@ import DropdownMenu from './DropdownMenu';
 import DropdownTournaments from './DropdownTournaments';
 import "./componentes.css";
 
+
+
 const ContenidoAdmin = () => {
   const { user, logout } = useAuth(); 
   const navigate = useNavigate(); // Inicializa useNavigate
@@ -233,7 +235,7 @@ const ContenidoAdmin = () => {
       <header className="header">
         <div className="logo-container">
           <Link to="/">
-            <img src="tennisweb/public/tennis-svgrepo-com.svg" alt="Tennislogo" className="logo" />
+            <img src="tennis-svgrepo-com.svg" alt="Tennislogo" className="logo" />
             <div className="title">
               <h1>Tenis Web</h1>
               <p>Liga's website</p>
