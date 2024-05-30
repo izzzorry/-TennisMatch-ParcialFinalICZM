@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from '../context/Contextualizador'; 
 import Contenido from './components/Contenido';
 import ContenidoAdmin from './components/contenidoadmin';
 import ContenidoClient from './components/contenidolog';
+import { AuthProvider } from './context/Contextualizador';
 
 function AppRoutes() {
   return (
