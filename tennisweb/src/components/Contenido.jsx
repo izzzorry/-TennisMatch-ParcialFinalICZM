@@ -198,15 +198,11 @@ const Contenido = () => {
         <nav className="navigation">
           <div className="categories-link-wrapper">
             <div className="categories-link" onClick={handleCategoriesClick}>Categories</div>
-            {isDropdownVisible && (
-              <DropdownMenu onMouseEnter={handleCategoriesClick} onMouseLeave={handleCategoriesClick} />
-            )}
+            
           </div>
           <div className="tournaments-link-wrapper">
             <div className="tournaments-link" onClick={handleTournamentsClick}>Tournaments</div>
-            {isTournamentsDropdownVisible && (
-              <DropdownTournaments onMouseEnter={handleTournamentsClick} onMouseLeave={handleTournamentsClick} />
-            )}
+           
           </div>
         </nav>
         <div className="button-container">
